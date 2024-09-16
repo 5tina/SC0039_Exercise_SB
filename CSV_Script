@@ -1,8 +1,8 @@
 import csv
 
 def calculate_segment_length(input_file, output_file):
-# 1. Opens the file
-    with open('brca_cnvs_tcga-1-2.csv', 'r') as infile:
+# 1. Opens the input file
+    with open(input_file, 'r') as infile:
         reader = csv.reader(infile)
 
         #Extracts the header
@@ -10,19 +10,19 @@ def calculate_segment_length(input_file, output_file):
         #Adds new column "loc.length" to the header
         header.append('loc.length')
 
-        #Opens the output file
-        with open('brca_cnvs_tcga-1-2-output.csv', 'w', newline = '') as outfile:
+        #Creates the output file
+        with open(output_file, 'w', newline = '') as outfile:
             writer = csv.writer(outfile)
             #Writes modified header to output file
             writer.writerow(header)
 
-        #Processes each row and calculate segment length
+        #Processes each row and calculates segment length
             for row in reader:
-                #Assuming loc.start and loc.end are at fixed positions
+                #Grabs start and end of each segment, calculates length
                 loc_start = int(row[2])
                 loc_end = int(row[3])
                 loc_length = loc_end - loc_start
-                #Appends calculeted segment length to the row
+                #Appends calculated segment length to the row
                 row.append(loc_length)
                 #Writes modified row to output file
                 writer.writerow(row)
@@ -31,6 +31,6 @@ if __name__ == '__main__':
     #Provide input and output file paths
     input_file = 'brca_cnvs_tcga-1-2.csv' #Replace with your actual input file
     output_file = 'brca_cnvs_tcga-1-2_output.csv' #Replace with desired output file path
-
-    #Run the function to calculate and output new file
+    
+    #Run function and calculate output in new file
     calculate_segment_length(input_file, output_file)
